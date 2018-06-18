@@ -43,7 +43,29 @@ public class Pawn extends Piece {
                         !board.getTile(behindCandidateDestinationCoordinate).isTileOccupied()) {
                     legalMoves.add(new MajorMove(board, this, behindCandidateDestinationCoordinate));
                 }
-            } else if()
+            } else if(currentCandidateOffset == 7 &&
+                    !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.pieceAlliance.isWhite()) ||
+                            (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack()))) {
+                if (board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
+                    final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+
+                    if (this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
+                        //TODO
+                        legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceOnCandidate));
+                    }
+                }
+            } else if(currentCandidateOffset == 9 &&
+                    !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isWhite()) ||
+                            (BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack()))) {
+                if (board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
+                    final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+
+                    if (this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
+                        //TODO
+                        legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceOnCandidate));
+                    }
+                }
+            }
         }
 
         return ImmutableList.copyOf(legalMoves);
