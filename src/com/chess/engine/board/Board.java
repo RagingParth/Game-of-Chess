@@ -57,6 +57,16 @@ public class Board
         return blackPieces;
     }
 
+    public WhitePlayer getWhitePlayer()
+    {
+        return whitePlayer;
+    }
+
+    public BlackPlayer getBlackPlayer()
+    {
+        return blackPlayer;
+    }
+
     private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces)
     {
         final List<Move> legalMoves = new ArrayList<>();
