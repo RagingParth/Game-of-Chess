@@ -13,28 +13,30 @@ import java.util.List;
 
 import static com.chess.engine.board.Move.*;
 
-public class King extends Piece {
-
+public class King extends Piece
+{
     private final static int[] CANDIDATE_MOVE_COORDINATE = {-9, -8, -7, -1, 1, 7, 8, 9};
 
-    public King(int piecePosition, Alliance pieceAlliance) {
-        super(piecePosition, pieceAlliance);
+    public King(int piecePosition, Alliance pieceAlliance)
+    {
+        super(PieceType.KING, piecePosition, pieceAlliance);
     }
 
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
-
+    public Collection<Move> calculateLegalMoves(Board board)
+    {
         final List<Move> legalMoves = new ArrayList<>();
 
-        for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATE) {
-
+        for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATE)
+        {
             int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
 
             if(isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) ||
                     isEighthColumnExclusion(this.piecePosition, currentCandidateOffset))
                 continue;
 
-            if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
+            if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
+            {
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
 
                 if(!candidateDestinationTile.isTileOccupied())
@@ -58,12 +60,14 @@ public class King extends Piece {
         return PieceType.KING.toString();
     }
 
-    private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
+    private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset)
+    {
         return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 ||
                 candidateOffset == -1 || candidateOffset == 7);
     }
 
-    private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset) {
+    private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset)
+    {
         return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -7 ||
                 candidateOffset == 1 || candidateOffset == 9);
     }

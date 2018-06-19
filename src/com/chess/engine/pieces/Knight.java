@@ -13,35 +13,39 @@ import java.util.List;
 
 import static com.chess.engine.board.Move.*;
 
-public class Knight extends Piece {
+public class Knight extends Piece
+{
 
     private final static int[] CANDIDATE_MOVE_COORDINATES = {-17, -15, -10, -6, 6, 10, 15, 17};
 
-    public Knight(final int piecePosition, final Alliance pieceAlliance) {
-        super(piecePosition, pieceAlliance);
+    public Knight(final int piecePosition, final Alliance pieceAlliance)
+    {
+        super(PieceType.KNIGHT, piecePosition, pieceAlliance);
     }
 
     @Override
-    public Collection<Move> calculateLegalMoves(final Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board)
+    {
         final List<Move> legalMoves = new ArrayList<>();
 
-        for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATES) {
+        for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATES)
+        {
             final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
 
-            if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
+            if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
+            {
                 if(isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) ||
                         isSecondColumnExclusion(this.piecePosition, currentCandidateOffset) ||
                         isSeventhColumnExclusion(this.piecePosition, currentCandidateOffset) ||
-                        isEighthColumnExclusion(this.piecePosition, currentCandidateOffset)) {
+                        isEighthColumnExclusion(this.piecePosition, currentCandidateOffset))
                     continue;
-                }
 
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
 
                 if(!candidateDestinationTile.isTileOccupied())
                     legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
-                else {
+                else
+                    {
                     final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                     final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
