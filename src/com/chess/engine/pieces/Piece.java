@@ -19,6 +19,10 @@ public abstract class Piece {
         this.isFirstMove = false;
     }
 
+    public int getPiecePosition() {
+        return piecePosition;
+    }
+
     public Alliance getPieceAlliance() {
         return pieceAlliance;
     }
