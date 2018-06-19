@@ -4,23 +4,47 @@ import com.chess.engine.Alliance;
 import com.chess.engine.pieces.*;
 import com.google.common.collect.ImmutableList;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
-
+public class Board
+{
     private final List<Tile> gameBoard;
+    private final Collection<Piece> whitePieces;
+    private final Collection<Piece> blackPieces;
 
-    public Board(Builder builder) {
+    public Board(Builder builder)
+    {
         this.gameBoard = createGameBoard(builder);
+        this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
+        this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
     }
 
-    public Tile getTile(int tileCoordinate) {
-        return null;
+    private Collection<Piece> calculateActivePieces(final List<Tile> gameBoard, final Alliance alliance)
+    {
+        final List<Piece> activePieces = new ArrayList<>();
+
+        for(final Tile tile : gameBoard)
+            if(tile.isTileOccupied())
+            {
+                final Piece piece = tile.getPiece();
+
+                if(piece.getPieceAlliance() == alliance)
+                    activePieces.add(piece);
+            }
+
+        return ImmutableList.copyOf(activePieces);
     }
 
-    private static List<Tile> createGameBoard(final Builder builder) {
+    public Tile getTile(int tileCoordinate)
+    {
+        return gameBoard.get(tileCoordinate);
+    }
 
+    private static List<Tile> createGameBoard(final Builder builder)
+    {
         final Tile[] tiles = new Tile[BoardUtils.NUM_TILES];
 
         for(int i=0; i<BoardUtils.NUM_TILES; i++)
@@ -29,7 +53,8 @@ public class Board {
         return ImmutableList.copyOf(tiles);
     }
 
-    public static Board createStandardBoard() {
+    public static Board createStandardBoard()
+    {
         final Builder builder = new Builder();
 
         builder.setPiece(new Rook(0, Alliance.BLACK));
@@ -71,28 +96,31 @@ public class Board {
         return builder.build();
     }
 
-    public static class Builder {
-
+    public static class Builder
+    {
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
 
-        public Builder() {
+        public Builder()
+        {
         }
 
-        public Builder setPiece(final Piece piece) {
+        public Builder setPiece(final Piece piece)
+        {
             this.boardConfig.put(piece.getPiecePosition(), piece);
             return this;
         }
 
-        public Builder setMoveMaker(final Alliance nextMoveMaker) {
+        public Builder setMoveMaker(final Alliance nextMoveMaker)
+        {
             this.nextMoveMaker = nextMoveMaker;
             return this;
         }
 
-        public Board build() {
+        public Board build()
+        {
             return new Board(this);
         }
 
     }
-
 }
