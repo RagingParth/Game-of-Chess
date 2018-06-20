@@ -3,6 +3,7 @@ package com.chess.engine.board;
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.*;
 import com.chess.engine.players.BlackPlayer;
+import com.chess.engine.players.Player;
 import com.chess.engine.players.WhitePlayer;
 import com.google.common.collect.ImmutableList;
 
@@ -16,6 +17,7 @@ public class Board
 
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
     public Board(Builder builder)
     {
@@ -28,6 +30,7 @@ public class Board
 
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.currentPlayer = null;
     }
 
     @Override
@@ -65,6 +68,11 @@ public class Board
     public BlackPlayer getBlackPlayer()
     {
         return blackPlayer;
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
     }
 
     private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces)
